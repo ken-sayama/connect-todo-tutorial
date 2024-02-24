@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  buf:
+    build:
+      context: ./docker/buf
+      dockerfile: Dockerfile
+    container_name: buf
+    volumes:
+      - .:/app
+    profiles:
+      - extra
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    container_name: app
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    tty: true
