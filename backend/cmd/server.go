@@ -3,6 +3,7 @@ package cmd
 import (
 	"connectrpc.com/validate"
 	"context"
+	"github.com/rs/cors"
 	"log"
 	"net/http"
 
@@ -37,7 +38,9 @@ func serverRun(_ *cobra.Command, _ []string) error {
 	mux.Handle(grpcreflect.NewHandlerV1Alpha(reflector))
 	if err := http.ListenAndServe(
 		"0.0.0.0:8080",
-		h2c.NewHandler(mux, &http2.Server{}),
+		cors.AllowAll().Handler(
+			h2c.NewHandler(mux, &http2.Server{}),
+		),
 	); err != nil {
 		log.Fatal(err)
 	}
