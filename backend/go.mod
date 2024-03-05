@@ -6,6 +6,7 @@ require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.32.0-20240212200630-3014d81c3a48.1 // indirect
 	connectrpc.com/connect v1.15.0 // indirect
 	connectrpc.com/grpcreflect v1.2.0 // indirect
+	connectrpc.com/validate v0.1.0 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.0 // indirect
 	github.com/bufbuild/protovalidate-go v0.5.2 // indirect
 	github.com/google/cel-go v0.19.0 // indirect

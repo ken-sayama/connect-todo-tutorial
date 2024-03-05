@@ -92,7 +92,7 @@
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  |  |
+| id | [string](#string) |  | string id = 1 [(buf.validate.field).string.min_len = 1]; |
 
 
 

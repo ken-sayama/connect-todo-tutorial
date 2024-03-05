@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"connectrpc.com/validate"
 	"context"
 	"log"
 	"net/http"
@@ -22,8 +23,13 @@ var serverCmd = &cobra.Command{
 
 func serverRun(_ *cobra.Command, _ []string) error {
 	log.Println("start server")
+	interceptor, err := validate.NewInterceptor()
+	if err != nil {
+		return err
+	}
 	mux := http.NewServeMux()
-	mux.Handle(todov1connect.NewTodoServiceHandler(&TodoServer{}))
+	// mux.Handle(todov1connect.NewTodoServiceHandler(&TodoServer{}))
+	mux.Handle(todov1connect.NewTodoServiceHandler(&TodoServer{}, connect.WithInterceptors(interceptor)))
 	reflector := grpcreflect.NewStaticReflector(
 		todov1connect.TodoServiceName,
 	)
@@ -49,6 +55,13 @@ func (s *TodoServer) ListTodos(ctx context.Context, req *connect.Request[todov1.
 
 func (s *TodoServer) GetTodo(ctx context.Context, req *connect.Request[todov1.GetTodoRequest]) (*connect.Response[todov1.GetTodoResponse], error) {
 	log.Println("call GetTodo")
+	//v, err := protovalidate.New()
+	//if err != nil {
+	//	return nil, err
+	//}
+	//if err = v.Validate(req.Msg); err != nil {
+	//	return nil, err
+	//}
 	res := connect.NewResponse(&todov1.GetTodoResponse{
 		Todo: &todov1.Todo{
 			Id:     req.Msg.Id,
